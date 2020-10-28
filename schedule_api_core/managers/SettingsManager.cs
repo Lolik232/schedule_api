@@ -33,9 +33,23 @@ namespace schedule_api_core.Managers
             {
                 if (result.Succeeded)
                 {
+                    var userSettings = await _store.SettingsStore.FindByUserId(userId);
                     settings.GibbonAccountId = userId;
-                    var settingsModel = settings.ToModel();
-                    await _store.SettingsStore.CreateAsync(settingsModel);
+                    if (userSettings == null)
+                    {
+                        var settingsModel = settings.ToModel();
+                        await _store.SettingsStore.CreateAsync(settingsModel);
+                    }
+                    else
+                    {
+                        userSettings.GroupName = settings.GroupName;
+                        userSettings.GroupLink = settings.GroupLink;
+                        userSettings.AccentColor = settings.AccentColor;
+                        userSettings.CustomAccentColor = settings.CustomAccentColor;
+                        userSettings.BackDrop = settings.BackDrop;
+                        userSettings.ThemeState = settings.ThemeState;
+                        await _store.UpdateAsync(userSettings);
+                    }
                     await _store.SaveChangesAsync();
                 }
                 return result;
@@ -70,10 +84,11 @@ namespace schedule_api_core.Managers
                         var error = new Error(ErrorCodes.UserDontHaveSettings);
                         return (null, Result.Failed(error));
                     }
-                    var settingsdto = new SettingsDto(userId, 
-                        settings.GroupName, 
-                        settings.GroupLink, 
+                    var settingsdto = new SettingsDto(userId,
+                        settings.GroupName,
+                        settings.GroupLink,
                         settings.AccentColor,
+                        settings.CustomAccentColor,
                         settings.ThemeState,
                         settings.BackDrop);
                     return (settingsdto, Result.Sucess);

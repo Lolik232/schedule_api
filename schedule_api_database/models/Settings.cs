@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace schedule_api_database.models
@@ -23,6 +24,9 @@ namespace schedule_api_database.models
 
         [Column("accent_color"), Required]
         public int AccentColor { get; set; }
+
+        [Column("custom_accent_color"),MaybeNull]
+        public string CustomAccentColor { get; set; }
 
         [Column("theme_state"), Required]
         public int ThemeState { get; set; }

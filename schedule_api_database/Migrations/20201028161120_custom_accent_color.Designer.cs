@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using schedule_api_database;
 
 namespace schedule_api_database.Migrations
 {
     [DbContext(typeof(MsSqlContext))]
-    partial class MsSqlContextModelSnapshot : ModelSnapshot
+    [Migration("20201028161120_custom_accent_color")]
+    partial class custom_accent_color
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

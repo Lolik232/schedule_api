@@ -20,6 +20,9 @@ namespace schedule_api_core.dto_s
         [JsonPropertyName("accent_color")]
         public int AccentColor { get; set; }
 
+        [JsonPropertyName("custom_accent_color")]
+        public string CustomAccentColor { get; set; }
+
         [JsonPropertyName("theme_state")]
         public int ThemeState { get; set; }
 
@@ -28,12 +31,13 @@ namespace schedule_api_core.dto_s
         public SettingsDto()
         {
         }
-        public SettingsDto(string gibbonAccountId, string groupName, string groupLink, int accentColor, int themeState, int backDrop)
+        public SettingsDto(string gibbonAccountId, string groupName, string groupLink, int accentColor, string customAccentColor, int themeState, int backDrop)
         {
             GibbonAccountId = gibbonAccountId;
             GroupName = groupName;
             GroupLink = groupLink;
             AccentColor = accentColor;
+            CustomAccentColor = customAccentColor;
             ThemeState = themeState;
             BackDrop = backDrop;
         }
@@ -45,6 +49,7 @@ namespace schedule_api_core.dto_s
                 GroupName = GroupName,
                 GroupLink = GroupLink,
                 AccentColor = AccentColor,
+                CustomAccentColor = CustomAccentColor,
                 ThemeState = ThemeState,
                 BackDrop = BackDrop
             };
