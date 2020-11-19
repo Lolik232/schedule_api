@@ -1,4 +1,5 @@
-﻿using schedule_api_database.models;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using schedule_api_database.models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,10 +29,17 @@ namespace schedule_api_core.dto_s
 
         [JsonPropertyName("backdrop")]
         public int BackDrop { get; set; }
+
+        [JsonPropertyName("last_sync_unixtime")]
+        public uint SyncTime { get; set; }
+
+        [JsonPropertyName("device")]
+        public string Device { get; set; }
+
         public SettingsDto()
         {
         }
-        public SettingsDto(string gibbonAccountId, string groupName, string groupLink, int accentColor, string customAccentColor, int themeState, int backDrop)
+        public SettingsDto(string gibbonAccountId, string groupName, string groupLink, int accentColor, string customAccentColor, int themeState, int backDrop, uint unixTime, string device)
         {
             GibbonAccountId = gibbonAccountId;
             GroupName = groupName;
@@ -40,6 +48,11 @@ namespace schedule_api_core.dto_s
             CustomAccentColor = customAccentColor;
             ThemeState = themeState;
             BackDrop = backDrop;
+            SyncTime = unixTime;
+            if (string.IsNullOrEmpty(device))
+                Device = "undefined";
+            else
+                Device = device;
         }
         internal Settings ToModel()
         {
@@ -51,7 +64,9 @@ namespace schedule_api_core.dto_s
                 AccentColor = AccentColor,
                 CustomAccentColor = CustomAccentColor,
                 ThemeState = ThemeState,
-                BackDrop = BackDrop
+                BackDrop = BackDrop,
+                LastSyncUnixTime = SyncTime,
+                Device = Device
             };
         }
     }

@@ -7,9 +7,11 @@ using schedule_api_database;
 using schedule_api_database.interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace schedule_api_core.Managers
 {
@@ -33,6 +35,13 @@ namespace schedule_api_core.Managers
             {
                 if (result.Succeeded)
                 {
+                    if (settings.Device == null)
+                        settings.Device = "undefined";
+
+                    //var unixtime = (uint)(DateTime.UtcNow - DateTime.UnixEpoch).TotalSeconds;
+                    //if (Math.Abs(unixtime - settings.SyncTime) > 100)
+                    //    settings.SyncTime = unixtime;
+
                     var userSettings = await _store.SettingsStore.FindByUserId(userId);
                     settings.GibbonAccountId = userId;
                     if (userSettings == null)
@@ -48,6 +57,8 @@ namespace schedule_api_core.Managers
                         userSettings.CustomAccentColor = settings.CustomAccentColor;
                         userSettings.BackDrop = settings.BackDrop;
                         userSettings.ThemeState = settings.ThemeState;
+                        userSettings.LastSyncUnixTime = settings.SyncTime;
+                        userSettings.Device = settings.Device;
                         await _store.UpdateAsync(userSettings);
                     }
                     await _store.SaveChangesAsync();
@@ -90,7 +101,10 @@ namespace schedule_api_core.Managers
                         settings.AccentColor,
                         settings.CustomAccentColor,
                         settings.ThemeState,
-                        settings.BackDrop);
+                        settings.BackDrop,
+                        settings.LastSyncUnixTime,
+                        settings.Device);
+
                     return (settingsdto, Result.Sucess);
                 }
                 return (null, result);

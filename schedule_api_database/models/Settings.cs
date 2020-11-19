@@ -34,6 +34,12 @@ namespace schedule_api_database.models
         [Column("backdrop"), Required]
         public int BackDrop { get; set; }
 
+        [Column("last_sync_unix_time")]
+        public uint LastSyncUnixTime { get; set; }
+
+        [Column("device")]
+        public string Device { get; set; }
+
 
         public Settings()
         {

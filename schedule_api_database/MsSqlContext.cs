@@ -12,7 +12,7 @@ namespace schedule_api_database
         public DbSet<Settings> Settings { get; set; }
         public MsSqlContext([NotNullAttribute] DbContextOptions options) : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
     }
 }
